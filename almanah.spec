@@ -2,7 +2,7 @@ Summary:	Almanah Diary - keep a personal diary
 Summary(pl.UTF-8):	Almanah Diary - osobisty pamiętnik
 Name:		almanah
 Version:	0.11.1
-Release:	4
+Release:	5
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/almanah/0.11/%{name}-%{version}.tar.xz
@@ -83,7 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/almanah
 %{_datadir}/GConf/gsettings/almanah.convert
 %{_datadir}/almanah
-%{_datadir}/appdata/almanah.appdata.xml
+%{_datadir}/metainfo/almanah.appdata.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.almanah.gschema.xml
 %{_desktopdir}/almanah.desktop
 %{_iconsdir}/hicolor/*x*/apps/almanah.png
