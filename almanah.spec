@@ -1,37 +1,44 @@
+#
+# Conditional build:
+%bcond_without	evolution	# Evolution calendar integration
+%bcond_without	gtkspell	# GtkSpell spell checking
+
 Summary:	Almanah Diary - keep a personal diary
 Summary(pl.UTF-8):	Almanah Diary - osobisty pamiętnik
 Name:		almanah
-Version:	0.11.1
-Release:	6
+Version:	0.12.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/almanah/0.11/%{name}-%{version}.tar.xz
-# Source0-md5:	6107d7becf94548170365f45f8d9dc69
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/almanah/0.12/%{name}-%{version}.tar.xz
+# Source0-md5:	7fdd097948a82bb40a6096f86e3ebac3
 URL:		https://wiki.gnome.org/Apps/Almanah_Diary
-BuildRequires:	appstream-glib-devel
+BuildRequires:	appstream-glib
 BuildRequires:	atk-devel
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.9
 BuildRequires:	cairo-devel
-BuildRequires:	evolution-data-server-devel >= 3.6
+%{?with_evolution:BuildRequires:	evolution-data-server-devel >= 3.33.2}
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.28.0
+BuildRequires:	gcr-devel >= 3
+BuildRequires:	glib2-devel >= 1:2.32
 BuildRequires:	gpgme-devel >= 1.0.0
-BuildRequires:	gtk+3-devel >= 3.5.6
-BuildRequires:	gtkspell3-devel >= 3.0
-BuildRequires:	intltool >= 0.35.0
+BuildRequires:	gtk+3-devel >= 3.15
+BuildRequires:	gtksourceview3-devel >= 3.0
+%{?with_gtkspell:BuildRequires:	gtkspell3-devel >= 3.0}
 BuildRequires:	libcryptui-devel
-BuildRequires:	libtool >= 2:2
+BuildRequires:	meson >= 0.47
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	python3 >= 1:3
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sqlite3-devel >= 3
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,postun):	glib2 >= 1:2.28.0
-Requires:	evolution-data-server >= 3.6
-Requires:	glib2 >= 1:2.28.0
+Requires(post,postun):	glib2 >= 1:2.32
+%{?with_evolution:Requires:	evolution-data-server >= 3.33.2}
+Requires:	glib2 >= 1:2.32
 Requires:	gpgme >= 1.0.0
-Requires:	gtk+3 >= 3.5.6
+Requires:	gtk+3 >= 3.15
 Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,22 +54,16 @@ pamiętnik.
 %setup -q
 
 %build
-%{__intltoolize}
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules
+%meson build \
+	%{!?with_evolution:-Devolution=false} \
+	%{!?with_gtkspell:-Dspell_checking=false}
 
-%{__make}
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C build
 
 %find_lang %{name}
 
@@ -79,12 +80,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog* MAINTAINERS NEWS README
+%doc AUTHORS MAINTAINERS NEWS README.md
 %attr(755,root,root) %{_bindir}/almanah
 %{_datadir}/GConf/gsettings/almanah.convert
-%{_datadir}/almanah
-%{_datadir}/metainfo/almanah.appdata.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.almanah.gschema.xml
+%{_datadir}/metainfo/almanah.appdata.xml
 %{_desktopdir}/almanah.desktop
 %{_iconsdir}/hicolor/*x*/apps/almanah.png
 %{_iconsdir}/hicolor/scalable/actions/almanah-tags-symbolic.svg
+%{_iconsdir}/hicolor/scalable/apps/almanah-symbolic.svg
