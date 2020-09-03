@@ -6,12 +6,12 @@
 Summary:	Almanah Diary - keep a personal diary
 Summary(pl.UTF-8):	Almanah Diary - osobisty pamiętnik
 Name:		almanah
-Version:	0.12.0
+Version:	0.12.2
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/almanah/0.12/%{name}-%{version}.tar.xz
-# Source0-md5:	7fdd097948a82bb40a6096f86e3ebac3
+# Source0-md5:	01a22dbd213ba91af828bf66164bacf4
 URL:		https://wiki.gnome.org/Apps/Almanah_Diary
 BuildRequires:	appstream-glib
 BuildRequires:	atk-devel
@@ -25,7 +25,7 @@ BuildRequires:	gtk+3-devel >= 3.15
 BuildRequires:	gtksourceview3-devel >= 3.0
 %{?with_gtkspell:BuildRequires:	gtkspell3-devel >= 3.0}
 BuildRequires:	libcryptui-devel
-BuildRequires:	meson >= 0.47
+BuildRequires:	meson >= 0.51
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
