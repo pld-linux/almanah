@@ -7,11 +7,12 @@ Summary:	Almanah Diary - keep a personal diary
 Summary(pl.UTF-8):	Almanah Diary - osobisty pamiętnik
 Name:		almanah
 Version:	0.12.3
-Release:	3
+Release:	4
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/almanah/0.12/%{name}-%{version}.tar.xz
 # Source0-md5:	b4d6023342f49e23435e06fd54d7fa4c
+Patch0:		%{name}-meson.patch
 URL:		https://wiki.gnome.org/Apps/Almanah_Diary
 BuildRequires:	appstream-glib
 BuildRequires:	atk-devel
@@ -52,6 +53,7 @@ pamiętnik.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %meson build \
